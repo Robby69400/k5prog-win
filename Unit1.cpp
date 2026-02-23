@@ -2247,8 +2247,8 @@ int __fastcall TForm1::k5_hello()
 
 		// reply ..
 		// 000000  15 05 24 00 6B 35 5F 32 2E 30 31 2E 32 36 00 00  ..$.k5_2.01.26..
-		// 000010  E4 E1 00 00 00 00 00 00 42 3D 28 55 36 49 D8 27  äá......B=(U6IØ'
-		// 000020  51 DF 0C 54 99 DB 2B 7F                          Qß.T™Û+
+		// 000010  E4 E1 00 00 00 00 00 00 42 3D 28 55 36 49 D8 27  ï¿½ï¿½......B=(U6Iï¿½'
+		// 000020  51 DF 0C 54 99 DB 2B 7F                          Qï¿½.Tï¿½ï¿½+
 
 		if (rx_data[0] == 0x18 && rx_data[1] == 0x05)
 		{	// radio is in firmware update mode
@@ -2663,7 +2663,7 @@ void __fastcall TForm1::ReadConfigButtonClick(TObject *Sender)
 void __fastcall TForm1::WriteFirmwareButtonClick(TObject *Sender)
 {
 	String s;
-	uint8_t flash[UVK5_MAX_FLASH_SIZE];
+	uint8_t flash[UVK5_CONFIG_SIZE];
 
 	disconnect();
 
@@ -2710,7 +2710,7 @@ void __fastcall TForm1::WriteFirmwareButtonClick(TObject *Sender)
 	Memo1->Clear();
 	Memo1->Lines->Add("");
 
-	s.printf("Loaded %u (0x%04X) bytes (max 0x%04X) from ..", m_loadfile_data.size(), m_loadfile_data.size(), UVK5_FLASH_SIZE);
+	s.printf("Loaded %u (0x%04X) bytes (max 0x%04X) from ..", m_loadfile_data.size(), m_loadfile_data.size(), UVK5_CONFIG_SIZE);
 	Memo1->Lines->Add(s);
 	Memo1->Lines->Add(m_loadfile_name);
 	Memo1->Update();
@@ -2814,11 +2814,11 @@ void __fastcall TForm1::WriteFirmwareButtonClick(TObject *Sender)
 		return;
 	}
 
-	if (m_loadfile_data.size() > UVK5_MAX_FLASH_SIZE)
+	if (m_loadfile_data.size() > UVK5_CONFIG_SIZE)
 	{
 		Application->BringToFront();
 		Application->NormalizeTopMosts();
-		s.printf("File is to large to be a firmware file (max 0x%05X)", UVK5_MAX_FLASH_SIZE);
+		s.printf("File is to large to be a firmware file (max 0x%05X)", UVK5_CONFIG_SIZE);
 		Application->MessageBox(s.c_str(), Application->Title.c_str(), MB_ICONERROR | MB_OK);
 		Application->RestoreTopMosts();
 
@@ -2828,12 +2828,12 @@ void __fastcall TForm1::WriteFirmwareButtonClick(TObject *Sender)
 		return;
 	}
 
-	if (m_loadfile_data.size() > UVK5_FLASH_SIZE)
+	if (m_loadfile_data.size() > UVK5_CONFIG_SIZE)
 	{
 		#if 0
 			Application->BringToFront();
 			Application->NormalizeTopMosts();
-			s.printf("File runs into bootloader area (0x%04X)\n\nStill upload ?", UVK5_FLASH_SIZE);
+			s.printf("File runs into bootloader area (0x%04X)\n\nStill upload ?", UVK5_CONFIG_SIZE);
 			const int res = Application->MessageBox(s.c_str(), Application->Title.c_str(), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2);
 			Application->RestoreTopMosts();
 			switch (res)
@@ -2851,7 +2851,7 @@ void __fastcall TForm1::WriteFirmwareButtonClick(TObject *Sender)
 		#else
 			Application->BringToFront();
 			Application->NormalizeTopMosts();
-			s.printf("File runs into bootloader area (0x%04X)\n\nUpload cancelled", UVK5_FLASH_SIZE);
+			s.printf("File runs into bootloader area (0x%04X)\n\nUpload cancelled", UVK5_CONFIG_SIZE);
 			Application->MessageBox(s.c_str(), Application->Title.c_str(), MB_ICONERROR | MB_OK);
 			Application->RestoreTopMosts();
 
@@ -3096,11 +3096,11 @@ void __fastcall TForm1::WriteConfigButtonClick(TObject *Sender)
 		return;
 	}
 
-	if (m_loadfile_data.size() > UVK5_MAX_CONFIG_SIZE)
+	if (m_loadfile_data.size() > UVK5_CONFIG_SIZE)
 	{
 		Application->BringToFront();
 		Application->NormalizeTopMosts();
-		s.printf("File is to large to be an config file (max 0x%04X)", UVK5_MAX_CONFIG_SIZE);
+		s.printf("File is to large to be an config file (max 0x%04X)", UVK5_CONFIG_SIZE);
 		Application->MessageBox(s.c_str(), Application->Title.c_str(), MB_ICONERROR | MB_OK);
 		Application->RestoreTopMosts();
 
@@ -3621,7 +3621,7 @@ void __fastcall TForm1::ReadCalibrationButtonClick(TObject *Sender)
 		return;
 	}
 
-	const uint32_t calib_addr = UVK5_MAX_CONFIG_SIZE - UVK5_CALIB_SIZE;
+	const uint32_t calib_addr = UVK5_CALIB_ADDR;
 	const int      size       = sizeof(m_calib);
 	const int      block_len  = UVK5_CONFIG_BLOCKSIZE;
 
@@ -3802,7 +3802,7 @@ void __fastcall TForm1::WriteCalibrationButtonClick(TObject *Sender)
 	Memo1->Clear();
 	Memo1->Lines->Add("");
 
-	s.printf("Loaded %u (0x%04X) bytes (max 0x%04X) from '%s'", m_loadfile_data.size(), m_loadfile_data.size(), UVK5_FLASH_SIZE, m_loadfile_name.c_str());
+	s.printf("Loaded %u (0x%04X) bytes (max 0x%04X) from '%s'", m_loadfile_data.size(), m_loadfile_data.size(), UVK5_CONFIG_SIZE, m_loadfile_name.c_str());
 	Memo1->Lines->Add(s);
 	Memo1->Update();
 
@@ -3893,7 +3893,7 @@ void __fastcall TForm1::WriteCalibrationButtonClick(TObject *Sender)
 
 	Memo1->Lines->Add("writing config area ..");
 
-	const uint32_t calib_addr = UVK5_MAX_CONFIG_SIZE - UVK5_CALIB_SIZE;
+	const uint32_t calib_addr = UVK5_CALIB_ADDR;
 
 	int size = m_loadfile_data.size();
 

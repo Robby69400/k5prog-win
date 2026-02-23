@@ -61,9 +61,9 @@
 IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=0
-MinorVer=1
-Release=27
-Build=0
+MinorVer=2
+Release=0
+Build=1
 Debug=0
 PreRelease=0
 Special=1
@@ -73,9 +73,9 @@ Locale=2057
 CodePage=1252
 
 [Version Info Keys]
-CompanyName=
-FileDescription=
-FileVersion=0.1.27.0
+CompanyName=Robzyl
+FileDescription=Robzyl
+FileVersion=0.2.0.1
 InternalName=
 LegalCopyright=
 LegalTrademarks=

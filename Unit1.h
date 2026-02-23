@@ -71,17 +71,16 @@
 
 #define UVK5_HELLO_TRIES                     2            //
 
-#define UVK5_CONFIG_SIZE                     0x00001d00   // 7424
-#define UVK5_CALIB_SIZE                      0x00000200   // 512
-#define UVK5_MAX_CONFIG_SIZE                 0x00002000   // 8192
+//#define UVK5_CONFIG_SIZE                     0x00080000 //512K
+//#define UVK5_CONFIG_SIZE                     0x00200000 //2M
+  #define UVK5_CONFIG_SIZE                     0x00010200 //65k
+  #define UVK5_CALIB_SIZE                      0x00000200
+  #define UVK5_CALIB_ADDR                      0x00010000
 
 #define UVK5_CONFIG_BLOCKSIZE                128          //
-
-#define UVK5_FLASH_SIZE                      0x0000f000   // 61440
-#define UVK5_MAX_FLASH_SIZE                  0x00010000   // 65536   the bootloader is in F000 to FFFF
 #define UVK5_FLASH_BLOCKSIZE                 256          //
+#define DEFAULT_SERIAL_SPEED                 38400        
 
-#define DEFAULT_SERIAL_SPEED                 38400        //
 //#define DEFAULT_FILE_NAME                    "k5_config.raw"
 //#define DEFAULT_FLASH_NAME                   "k5_flash.raw"
 
@@ -360,7 +359,7 @@ private:
 
 	int                   m_verbose;
 
-	uint8_t               m_config[UVK5_MAX_CONFIG_SIZE];
+	uint8_t               m_config[UVK5_CONFIG_SIZE];
 	uint8_t               m_calib[UVK5_CALIB_SIZE];
 
 	std::vector < std::vector <uint8_t> > m_rx_packet_queue;

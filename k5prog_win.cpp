@@ -34,8 +34,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	try
 	{
 		Application->Initialize();
-		Application->Title = "k5prog-win";
-		Application->HintPause = 100;
+		Application->Title = "K1prog-win 65k by Robby69";
+                 Application->HintPause = 100;
 		Application->HintHidePause = 10000;
 		Application->CreateForm(__classid(TForm1), &Form1);
 		Application->Run();
